@@ -1,0 +1,30 @@
+{
+  "name": "proxy-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "node index.js"
+  },
+  "author": "Fagner Brack <github@fagnermartins.com>",
+  "license": "MIT",
+  "dependencies": {
+    "proxy-checker": "1.0.0",
+    "str-replace": "0.0.5"
+  },
+  "devDependencies": {
+    "expect.js": "0.3.1",
+    "mocha": "2.4.5"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FagnerMartinsBrack/proxy-test.git"
+  },
+  "bugs": {
+    "url": "https://github.com/FagnerMartinsBrack/proxy-test/issues"
+  },
+  "homepage": "https://github.com/FagnerMartinsBrack/proxy-test#readme"
+}
