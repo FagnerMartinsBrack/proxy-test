@@ -19,18 +19,21 @@ const startOver = function() {
     // Callback function to be called after the check 
     function(host, port, ok, statusCode, err) {
       var line = host + ':' + port;
-      console.log(alignString(line, 25) + ' => '
-        + (ok ? 'Found a valid proxy' : 'Invalid proxy, removed!') + ' (status: ' + statusCode + ', err: ' + err + ')');
+      let message = alignString(line, 25) + ' => '
       const proxyContentsBeforeRemovingLine = fs.readFileSync('proxies.txt', { encoding: 'UTF-8' })
-      // Connection timeout, not reading timeout
       if (err && err.code === 'ETIMEDOUT' && err.connect === true) {
+        // Connection timeout, not reading timeout
+        message += 'Invalid proxy, removed!' + '(status: ' + statusCode + ', err: ' + err + ')'
         removeLineFromFile('proxies.txt', line);
+      } else if (err && err.code === 'ECONNREFUSED') {
+        // Connection refused
+        message += 'Invalid proxy, removed!' + '(status: ' + statusCode + ', err: ' + err + ')'
+        removeLineFromFile('proxies.txt', line);
+      } else {
+        message += 'Found a potentially valid proxy: ' + (err && err.code || '')
       }
-      // else if ( statusCode !== 200 || !ok ) {
-      //     removeLineFromFile('proxies.txt', line);
-      // }
+      console.log(message);
       const ips = proxyContentsBeforeRemovingLine.split('\n')
-      // console.log('Finished line: ' + line + ' inside the list: ' + ips)
       if (ips.indexOf(line) === ips.length - 1) {
         console.log('Starting over after reaching EOF at: ', line);
         startOver()

@@ -8,4 +8,9 @@ describe("remove-line-from-file", function() {
     removeLineFromFile('test/placeholder.txt', 'line2');
     expect(fs.readFileSync('test/placeholder.txt', 'utf-8')).to.be('line1\nline3');
   });
+  it("removes a single line", function() {
+    fs.writeFileSync('test/placeholder.txt', 'line1');
+    removeLineFromFile('test/placeholder.txt', 'line1');
+    expect(fs.readFileSync('test/placeholder.txt', 'utf-8')).to.be('');
+  })
 });
