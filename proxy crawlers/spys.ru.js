@@ -1,4 +1,5 @@
 // Example: http://spys.ru/free-proxy-list/BR/
+// Pre-check: http://www.checker.freeproxy.ru/checker/
 
 var arrayify = function(args) {
   return [].slice.call(args);

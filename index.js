@@ -16,7 +16,7 @@ const startOver = function() {
       url: configuration['blocked-url'],
       regex: new RegExp(configuration['regex-for-valid-response'])
     },
-    // Callback function to be called after the check 
+    // Callback function to be called after the check
     function(host, port, ok, statusCode, err) {
       var line = host + ':' + port;
       let message = alignString(line, 25) + ' => '
@@ -25,12 +25,17 @@ const startOver = function() {
         // Connection timeout, not reading timeout
         message += 'Invalid proxy, removed!' + '(status: ' + statusCode + ', err: ' + err + ')'
         removeLineFromFile('proxies.txt', line);
+      } else if(err && err.code === 'ECONNRESET') {
+        message += 'Invalid proxy, removed!' + '(status: ' + statusCode + ', err: ' + err + ')'
+        removeLineFromFile('proxies.txt', line);
+      } else if (err && err.code === 'ENETUNREACH') {
+        message += 'Invalid proxy, removed!' + '(status: ' + statusCode + ', err: ' + err + ')'
+        removeLineFromFile('proxies.txt', line);
       } else if (err && err.code === 'ECONNREFUSED') {
-        // Connection refused
         message += 'Invalid proxy, removed!' + '(status: ' + statusCode + ', err: ' + err + ')'
         removeLineFromFile('proxies.txt', line);
       } else {
-        message += 'Found a potentially valid proxy: ' + (err && err.code || '')
+        message += 'Found a potentially valid proxy: ' + '(' + line + ') ' + (err && err.code || '')
       }
       console.log(message);
       const ips = proxyContentsBeforeRemovingLine.split('\n')
